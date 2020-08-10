@@ -1,0 +1,79 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Палата № 6</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <a href="{% url 'dashboard' %}">Палата № 6</a>
+            </li>
+            {% comment %} <li class="nav-item">
+                <a href="{% url 'dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active_link{% endif %}">Dashboard</a>
+            </li> {% endcomment %}
+            <li class="nav-item">
+                <a href="{% url 'reports' %}" class="nav-link {% if request.resolver_match.url_name == 'reports' %}active_link{% endif %}">Отчёты</a>
+            </li>             
+            {% if request.user.is_superuser %}
+            <li class="nav-item">
+                <a href="{% url 'expenses' %}" class="nav-link {% if request.resolver_match.url_name == 'expenses' %}active_link{% endif %}">Расходы</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'proceed' %}" class="nav-link {% if request.resolver_match.url_name == 'proceed' %}active_link{% endif %}">Выручка</a>
+            </li>          
+            {% endif %}                                   
+            <li class="nav-item">
+                <a href="{% url 'create_report' %}" class="nav-link {% if request.resolver_match.url_name == 'create_report' %}active_link{% endif %}">Создать отчёт</a>
+            </li>  
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-10">
+                    <a href="#menu-toggle" class="btn btn-dark" id="menu-toggle">Меню</a>
+                </div>
+                <div class="col-2">
+                    <ul class="list-group">
+                        {% if user.is_authenticated %}
+                            <li class="list-group-item">Welcome, {{ user.get_username }}</li>
+                            <li class="list-group-item"><a href="{% url 'logout'%}?next={{request.path}}">Выход</a></li>   
+                            {% else %}
+                            <li class="list-group-item"><a href="{% url 'login'%}?next={{request.path}}">Войти</a></li>   
+                        {% endif %} 
+                    </ul>  
+                </div>                    
+            </div>
+            <div class="row">
+                <div class="col">
+                    {% block content %}
+                    {% endblock content %}                      
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="{% static 'js/script.js' %}"></script>
+
+</body>
+</html>

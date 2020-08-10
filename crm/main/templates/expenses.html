@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Расходы</h1>
+<div class="row">
+    <div class="col">
+ <table class="table table-hover">
+    <thead class="thead">
+        <tr>
+            <th scope="col">Дата</th>
+            <th scope="col">Расходы наличными</th>
+            <th scope="col">Расходы по карте</th>
+            <th scope="col">Обоснование расходов</th>
+
+        </tr>
+    </thead>
+    <tbody>
+    {% for report in reports %}
+        <tr scope="row">
+            <td>{{report.date}}</td>
+            <td>{{report.expense_cash}}</td>
+            <td>{{report.expense_card}}</td>
+            <td>{{report.reason}}</td>
+        </tr>             
+    {% endfor %}
+    </tbody>
+</table> 
+    </div>
+</div>
+
+
+
+{% endblock content %}

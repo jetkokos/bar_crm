@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load crm_extras %}
+{% block content %}
+<h1>Отчёты</h1>
+<div class="row">
+    <div class="col">
+        <table class="table table-hover">
+            <thead class="thead">
+                <tr>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Бармен</th>
+                    <th scope="col">Касса утром</th>
+                    <th scope="col">Наличными</th>
+                    <th scope="col">Терминал</th>
+                    <th scope="col">Расходы</th> 
+                    <th scope="col">На что</th>
+                    <th scope="col">Внесено средств</th>    
+                    <th scope="col">Касса вечером</th>
+                    <th scope="col">Расхождение</th>
+
+                </tr>
+            </thead>
+            <tbody>
+            {% for report in reports %}
+                {% with next_report=reports|next:forloop.counter0 %}
+                {% with previous_report=reports|previous:forloop.counter0 %}
+                <tr scope="row">
+                    <td>{{report.date}}</td>
+                    <td>{{report.created_by}}</td>
+                    {% comment %} <td class="{% if report.cashbox_morning != next_report.cashbox_evening %} bg-danger {% endif %}">{{report.cashbox_morning}}</td> {% endcomment %}
+                    <td>{{report.cashbox_morning}}</td>
+                    <td>{{report.cash_amount}}</td>
+                    <td>{{report.card_amount}}</td>
+                    <td>{{report.expense_cash}}</td> 
+                    <td>{{report.reason}}</td>
+                    <td>{{report.cashbox_cash_added}}</td>            
+                    <td>{{report.cashbox_evening}}</td>
+                    <td class="{% if report.cashbox_difference != 0 %} bg-danger {% endif %}">{{report.cashbox_difference}}</td>
+                </tr> 
+                {% endwith %}           
+                {% endwith %}
+            {% endfor %}
+            </tbody>
+            </table>
+            
+        {% if edit_button_visibility %}
+            <a href="../update_report/">Редактировать последний отчёт</a>  
+        {% endif %}
+
+
+
+
+
+    </div>
+</div>
+
+
+
+{% endblock content %}
